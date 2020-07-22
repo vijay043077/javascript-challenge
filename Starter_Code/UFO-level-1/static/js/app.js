@@ -2,17 +2,10 @@
 var tableData = data;
 
 // Select the button
-var button = d3.select("#button");
-
-// Select the form
-var form = d3.select("#form");
-
-button.on("click", runEnter);
-
-form.on("submit", runEnter);
+d3.select("#filter-btn").on("click", runEnter);
 
 function runEnter() {
-    d3.event.preventDefault();
+    /* d3.event.preventDefault(); */
 
     var inputElement = d3.select("#datetime");
 
@@ -21,14 +14,18 @@ function runEnter() {
     console.log(inputValue);
     console.log(tableData);
 
-    var filteredData = tableData.filter(data => data.datetime === inputValue);
+    var filteredData = tableData;
 
-    console.log(filteredData);
+    if (inputValue) {
+        filteredData = filteredData.filter(data => data.datetime === inputValue);
+    }
+    
+    console.log(filteredData); 
 
     var tbody = d3.select("tbody");
-    console.log(data);
+    tbody.html("");
 
-    data.forEach((alienSighting) => {
+    filteredData.forEach((alienSighting) => {
         var row = tbody.append("tr");
         Object.values(alienSighting).forEach((value) => {
             var cell = row.append("td");
@@ -37,4 +34,5 @@ function runEnter() {
     });
 
 }
+
 runEnter();
